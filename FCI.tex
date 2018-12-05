@@ -1,0 +1,99 @@
+\documentclass[12p]{article}
+\input{packages}
+
+\title{FCI: Computational Details}
+\author{}
+
+\begin{document}
+
+\maketitle
+
+\section{Two-Electron Off-Diagonal Address Calculation}
+
+Let us assume we are in a Fock space where $N_{\alpha} = N$ and $N_{\beta} = 0$.
+\\
+Let us call $\ket{I_{\alpha}}$ the ONV with address I.
+We have arrived at following expression for the Hamiltonian:
+
+      \begin{equation}\label{eq:ham}
+          \hat{\mathcal{H}}_\text{elec} = \sum_{pq}^K k_{pq} \hat{E}_{pq} + \frac{1}{2} \sum_{pqrs}^K g_{pqrs} \hat{E}_{pq} \hat{E}_{rs}
+      \end{equation}
+We will focus only on the two electron operators $ \sum_{pqrs}^K g_{pqrs} \hat{a}^{\dagger}_{p} \hat{a}_{q}  \hat{a}^{\dagger}_{r} \hat{a}_{s}$. And only focus on the $\alpha$ electrons. We will therefore ignore the $\alpha$ subscript.
+We require to consider operator indices for which a given ONV I does not vanish:
+\begin{equation}
+  \bra{I} \hat{a}^{\dagger}_{p} \hat{a}_{q} \hat{a}^{\dagger}_{r} \hat{a}_{s} = \bra{J}
+\end{equation}
+In which $J$ is an address larger than $I$. Reason for this is, in the event that $\ket{I}$ can be transformed in $\ket{J}$. $\ket{J}$ can also be transformed back to $\ket{I}$ yielding the same two-electron term (hermitian two-electron operators).
+
+\begin{equation}
+  (\bra{I} E_{pq} E_{rs} \ket{J})^\dagger = \bra{J} E_{sr} E_{qp} \ket{I}
+\end{equation}
+
+It is important to note, that I will base further explinations on the perspective of equation (\ref{eq:address}) where $\hat{a}^{\dagger}_{p}$ annihilates on $\bra{I}$.
+
+\subsection{Minimal operator iterations}
+For the address to be larger at all times, the highest index of a creation should always be higher than the highest index of an annihilation. This is easily verified by the fact that we represent our ONVs in binary and that the addressing is based on the ordering of its integer value. Given the relation of numeric value for each index of an integer represented in binary is quadratic, the integer value of a set index is always larger than any combination of previously set indices:
+\begin{equation}
+  2^N - 1 = \sum^{N-1}_{i=0} 2^i
+\end{equation}
+
+Additionally we can state that the first annihiltion can always have a smaller index than the second annihiltion without skipping over any address, the same is true for the creation operators.
+
+Regardless is which way they are executed (if they are all different indices), the address will be the same. However the order of execution can alter the expression (sign wise) and will be accompanied by a different two-electron term.
+\begin{align}
+  \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s & = \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s \delta_{rq} - \hat{a}^\dagger_p \hat{a}^\dagger_r \hat{a}_q \hat{a}_s \\
+  & = \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r \hat{a}^\dagger_p \hat{a}_q \hat{a}_s \\
+  & = \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r \hat{a}^\dagger_p \hat{a}_q \hat{a}_s \delta_{pq} - \hat{a}^\dagger_r \hat{a}_q \hat{a}^\dagger_p \hat{a}_s \label{eq:equals} \\
+  & \text{IF p,q,r,s $\neq$} \\
+  & = -\hat{a}^\dagger_r \hat{a}_q \hat{a}^\dagger_p \hat{a}_s \\
+  & \text{additionally we find:} \\
+  & = \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_q \\
+  & = -\hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_q
+\end{align}
+So for the \textit{p,q,r,s $\neq$} case, we can enforce : $p<r$, $q<s$ for symmetries and anti-symmetries, and $s > r$ upper diagonal to not generate redundant addresses. This leaves us with limited combinations:
+\begin{enumerate}
+  \item $p > q$ ($s > r > p$)
+  \item $p < q$
+  \begin{itemize}
+    \item $r > q$ ($s > r$)
+    \item $q > r$ ($s > q$)
+  \end{itemize}
+\end{enumerate}
+
+For inplace annihila-crea- and crea-annihila-tions, the rules are slightly different, because creation annihilation operators with the same index cancel each other out. Therefore the non-annihiltion bound creation index has to be larger than the non-creation bound annihiltion index to produce larger addresses (the rules for one-electron evaluation).
+
+\begin{enumerate}
+  \item $p = q$, $s > r$
+  \item $q = r$, $s > p$
+\end{enumerate}
+
+These have some implication for symmetry and anti-symmetry equations such as equation (\ref{eq:equals}) as $\delta$ is not always zero:
+
+
+\begin{align}
+  \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s & = \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r \hat{a}^\dagger_p \hat{a}_q \hat{a}_s \delta_{pq} - \hat{a}^\dagger_r \hat{a}_q \hat{a}^\dagger_p \hat{a}_s \\
+  & = \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r \hat{a}^\dagger_p \hat{a}_q \hat{a}_s \delta_{pq} - \hat{a}^\dagger_r \hat{a}_q \hat{a}^\dagger_p \hat{a}_s \delta_{sp} - \hat{a}^\dagger_r \hat{a}_s \hat{a}_q \hat{a}^\dagger_p \delta_{pq} + \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_q \\
+  & = \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s \delta_{rs} + \hat{a}^\dagger_p \hat{a}_s \hat{a}_q \hat{a}^\dagger_r \delta_{qr} - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_q
+\end{align}
+
+For $p = q$ we can also see that for $s = q \iff r = q$ ortherwise we would have a double creation on the same index without an annihilation on that same index, which is a vanishing operation sequence. However this does not alter the address (diagonal contribution) and is ignored in the algorithm. Hence we state that $ s \neq p, q, r $ This simplifies the equations:
+
+\begin{align}
+  \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_r \hat{a}_s & = \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_r \hat{a}_s \delta_{rp} + \hat{a}^\dagger_r \hat{a}^\dagger_p \hat{a}_p \hat{a}_s - \hat{a}^\dagger_r \hat{a}_p \hat{a}^\dagger_p \hat{a}_s \\
+  & = \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_r \hat{a}_s \delta_{rp} + \hat{a}^\dagger_r \hat{a}^\dagger_p \hat{a}_p \hat{a}_s - \hat{a}^\dagger_r \hat{a}_s \hat{a}_p \hat{a}^\dagger_p  + \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_p \\
+  & = \hat{a}^\dagger_p \hat{a}_s \hat{a}_p \hat{a}^\dagger_r \delta_{pr} - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_p
+\end{align}
+
+we can then discriminate between $r = p$ (note that : subsequent identical annihilations are always vanishing):
+
+\begin{align}
+  \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_p \hat{a}_s & = 0 \\
+  & = \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_p \hat{a}_s - \hat{a}^\dagger_p \hat{a}_s \hat{a}_p \hat{a}^\dagger_p  + \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_p \hat{a}_p \\
+  & = \hat{a}^\dagger_p \hat{a}_s \hat{a}_p \hat{a}^\dagger_p  - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_p \hat{a}_p \label{eq:21}
+\end{align}
+
+We see in equation (\ref{eq:21}) that last term annihilates $p$, then operator on index $s$ does strictly not create on index $p$ and index $p$ is annihilated again, thus this term vanishes.
+
+
+
+\end{document}
