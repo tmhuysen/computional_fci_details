@@ -36,21 +36,21 @@ For the address to be larger at all times, the highest index of a creation shoul
 \begin{equation}
   2^N - 1 = \sum^{N-1}_{i=0} 2^i
 \end{equation}
-
 Additionally we can state that the first annihiltion can always have a smaller index than the second annihiltion without skipping over any address, the same is true for the creation operators.
 
 Regardless is which way they are executed (if they are all different indices), the address will be the same. However the order of execution can alter the expression (sign wise) and will be accompanied by a different two-electron term.
 \begin{align}
-  \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s & = \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s \delta_{rq} - \hat{a}^\dagger_p \hat{a}^\dagger_r \hat{a}_q \hat{a}_s \\
-  & = \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r \hat{a}^\dagger_p \hat{a}_q \hat{a}_s \\
-  & = \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r \hat{a}^\dagger_p \hat{a}_q \hat{a}_s \delta_{pq} - \hat{a}^\dagger_r \hat{a}_q \hat{a}^\dagger_p \hat{a}_s \label{eq:equals} \\
-  & \text{IF p,q,r,s $\neq$} \\
+  \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s & = \hat{a}^\dagger_p \hat{a}_s \delta_{rq} - \hat{a}^\dagger_p \hat{a}^\dagger_r \hat{a}_q \hat{a}_s \nonumber \\
+  & = \hat{a}^\dagger_p  \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r \hat{a}^\dagger_p \hat{a}_q \hat{a}_s \nonumber \\
+  & = \hat{a}^\dagger_p  \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r \hat{a}_s \delta_{pq} - \hat{a}^\dagger_r \hat{a}_q \hat{a}^\dagger_p \hat{a}_s \label{eq:equals} \\
+  & \text{IF p,q,r,s $\neq$} \nonumber \\
   & = -\hat{a}^\dagger_r \hat{a}_q \hat{a}^\dagger_p \hat{a}_s \\
-  & \text{additionally we find:} \\
+  & \text{additionally we find:} \nonumber \\
   & = \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_q \\
   & = -\hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_q
 \end{align}
 So for the \textit{p,q,r,s $\neq$} case, we can enforce : $p<r$, $q<s$ for symmetries and anti-symmetries, and $s > r$ upper diagonal to not generate redundant addresses. This leaves us with limited combinations:
+
 \begin{enumerate}
   \item $p > q$ ($s > r > p$)
   \item $p < q$
@@ -59,41 +59,86 @@ So for the \textit{p,q,r,s $\neq$} case, we can enforce : $p<r$, $q<s$ for symme
     \item $q > r$ ($s > q$)
   \end{itemize}
 \end{enumerate}
-
 For inplace annihila-crea- and crea-annihila-tions, the rules are slightly different, because creation annihilation operators with the same index cancel each other out. Therefore the non-annihiltion bound creation index has to be larger than the non-creation bound annihiltion index to produce larger addresses (the rules for one-electron evaluation).
 
 \begin{enumerate}
   \item $p = q$, $s > r$
   \item $q = r$, $s > p$
 \end{enumerate}
-
 These have some implication for symmetry and anti-symmetry equations such as equation (\ref{eq:equals}) as $\delta$ is not always zero:
 
 
 \begin{align}
-  \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s & = \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r \hat{a}^\dagger_p \hat{a}_q \hat{a}_s \delta_{pq} - \hat{a}^\dagger_r \hat{a}_q \hat{a}^\dagger_p \hat{a}_s \\
-  & = \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r \hat{a}^\dagger_p \hat{a}_q \hat{a}_s \delta_{pq} - \hat{a}^\dagger_r \hat{a}_q \hat{a}^\dagger_p \hat{a}_s \delta_{sp} - \hat{a}^\dagger_r \hat{a}_s \hat{a}_q \hat{a}^\dagger_p \delta_{pq} + \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_q \\
-  & = \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s \delta_{rs} + \hat{a}^\dagger_p \hat{a}_s \hat{a}_q \hat{a}^\dagger_r \delta_{qr} - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_q
+  \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s & = \hat{a}^\dagger_p \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r  \hat{a}_s \delta_{pq} - \hat{a}^\dagger_r \hat{a}_q \hat{a}^\dagger_p \hat{a}_s \\
+  & = \hat{a}^\dagger_p \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r \hat{a}_s \delta_{pq} - \hat{a}^\dagger_r \hat{a}_q  \delta_{sp} - \hat{a}^\dagger_r \hat{a}_s \delta_{pq} + \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_q \\
+  & = \hat{a}^\dagger_p \hat{a}_q \delta_{rs} + \hat{a}^\dagger_p \hat{a}_s \delta_{qr} - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_q
 \end{align}
 
+\subsubsection{$p = q$} \label{p=q}
 For $p = q$ we can also see that for $s = q \iff r = q$ ortherwise we would have a double creation on the same index without an annihilation on that same index, which is a vanishing operation sequence. However this does not alter the address (diagonal contribution) and is ignored in the algorithm. Hence we state that $ s \neq p, q, r $ This simplifies the equations:
 
 \begin{align}
-  \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_r \hat{a}_s & = \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_r \hat{a}_s \delta_{rp} + \hat{a}^\dagger_r \hat{a}^\dagger_p \hat{a}_p \hat{a}_s - \hat{a}^\dagger_r \hat{a}_p \hat{a}^\dagger_p \hat{a}_s \\
-  & = \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_r \hat{a}_s \delta_{rp} + \hat{a}^\dagger_r \hat{a}^\dagger_p \hat{a}_p \hat{a}_s - \hat{a}^\dagger_r \hat{a}_s \hat{a}_p \hat{a}^\dagger_p  + \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_p \\
-  & = \hat{a}^\dagger_p \hat{a}_s \hat{a}_p \hat{a}^\dagger_r \delta_{pr} - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_p
+  \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_r \hat{a}_s & = \hat{a}^\dagger_p \hat{a}_s \delta_{rp} + \hat{a}^\dagger_r  \hat{a}_s - \hat{a}^\dagger_r \hat{a}_p \hat{a}^\dagger_p \hat{a}_s \\
+  & = \hat{a}^\dagger_p \hat{a}_s \delta_{rp} + \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_p \\
+  & = \hat{a}^\dagger_p \hat{a}_s \delta_{pr} - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_p
 \end{align}
-
-we can then discriminate between $r = p$ (note that : subsequent identical annihilations are always vanishing):
+We can then discriminate between $r = p$ :
 
 \begin{align}
-  \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_p \hat{a}_s & = 0 \\
-  & = \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_p \hat{a}_s - \hat{a}^\dagger_p \hat{a}_s \hat{a}_p \hat{a}^\dagger_p  + \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_p \hat{a}_p \\
-  & = \hat{a}^\dagger_p \hat{a}_s \hat{a}_p \hat{a}^\dagger_p  - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_p \hat{a}_p \label{eq:21}
+  \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_p \hat{a}_s & = \hat{a}^\dagger_p \hat{a}_s + \hat{a}^\dagger_p \hat{a}_s - \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_p \hat{a}_s  \\
+  & = \hat{a}^\dagger_p \hat{a}_s + \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_p \hat{a}_p \label{eq:vanish1} \\
+  & = \hat{a}^\dagger_p \hat{a}_s - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_p \hat{a}_p \label{eq:vanish2}
 \end{align}
+We see in equation (\ref{eq:vanish1}) and (\ref{eq:vanish2}) that last term annihilates $p$, then operator on index $s$ does strictly not create on index $p$ and index $p$ is annihilated again, thus this term vanishes:
 
-We see in equation (\ref{eq:21}) that last term annihilates $p$, then operator on index $s$ does strictly not create on index $p$ and index $p$ is annihilated again, thus this term vanishes.
+\begin{equation}
+  \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_p \hat{a}_s = \hat{a}^\dagger_p \hat{a}_s
+\end{equation}
+For $r \neq p$:
+\begin{align}
+  \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_r \hat{a}_s & = \hat{a}^\dagger_r  \hat{a}_s - \hat{a}^\dagger_r \hat{a}_p \hat{a}^\dagger_p \hat{a}_s  \nonumber \\
+  & = \hat{a}^\dagger_r  \hat{a}_s \label{eq:rneqp}\\
+  & =  \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_p \\
+  & = - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_p
+\end{align}
+Where se see that for equation (\ref{eq:rneqp}) the second term vanished, as the initial term is assumend non-vanishing.
+
+\subsubsection{$q=r$}
+We only cover $p \neq r$ as we assume tha $r$ starts unoccupied as opposed to the previous section (\ref{p=q}).
+\begin{align}
+  \hat{a}^\dagger_p \hat{a}_r \hat{a}^\dagger_r \hat{a}_s & = \hat{a}^\dagger_p \hat{a}_s - \hat{a}^\dagger_r \hat{a}_r \hat{a}^\dagger_p \hat{a}_s \nonumber \\
+  & = \hat{a}^\dagger_p \hat{a}_s  \\
+  & = \hat{a}^\dagger_p \hat{a}_s + \hat{a}^\dagger_r \hat{a}_s \delta_{pr} - \hat{a}^\dagger_r \hat{a}_r  \delta_{sp} - \hat{a}^\dagger_r \hat{a}_s \delta_{pr} + \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_r \\
+  & = \hat{a}^\dagger_p \hat{a}_r \delta_{rs} + \hat{a}^\dagger_p \hat{a}_s - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_r
+\end{align}
+Which simplies to:
+\begin{equation}
+  \hat{a}^\dagger_p \hat{a}_r \hat{a}^\dagger_r \hat{a}_s = \hat{a}^\dagger_p \hat{a}_s
+\end{equation}
 
 
+\subsubsection{Summary}
+In short this we shall sum up what appears to be the minimal amount of operators required to retrieve all information for the Hamiltonian for the two-electron (same spin) operators.
+The value:
+\begin{equation}
+  \frac{1}{2} (g_{pqrs} + g_{rspq} - g_{rqps} - g_{psrq})
+\end{equation}
+ Can be retrieved for any of the follwing non-vanishing operator sequence combinations yielding a higher and the same (thus non redundant) address for a given $\bra{I}$:
+\begin{enumerate}
+  \item $s > r > p > q$
+  \item $s > r > q > p$
+  \item $s > q > r > p$
+\end{enumerate}
+For every occupied index $x$ in an ONV:
+\begin{equation}
+  \frac{1}{2} (g_{xxpq} + g_{pqxx} - g_{xpqx})
+\end{equation}
+(the $p = x$ instance we see $g_{xqxx} - g_{xxqx} = 0$)
+For every unnocupied index $y$ ($p \neq y$) in an ONV:
+\begin{equation}
+  \frac{1}{2} (g_{pyyq})
+\end{equation}
+Where for both cases $p<q$.
+\subsection{Calculating Addresses}
 
 \end{document}
