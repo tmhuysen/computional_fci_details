@@ -10,7 +10,7 @@
 
 \section{Two-Electron Off-Diagonal Address Calculation}
 
-Let us assume we are in a Fock space where $N_{\alpha} = N$ and $N_{\beta} = 0$.
+Given a Fock space.
 \\
 Let us call $\ket{I_{\alpha}}$ the ONV with address I.
 We have arrived at following expression for the Hamiltonian:
@@ -20,7 +20,7 @@ We have arrived at following expression for the Hamiltonian:
       \end{equation}
 We will focus only on the two electron operators $ \sum_{pqrs}^K g_{pqrs} \hat{a}^{\dagger}_{p} \hat{a}_{q}  \hat{a}^{\dagger}_{r} \hat{a}_{s}$. And only focus on the $\alpha$ electrons. We will therefore ignore the $\alpha$ subscript.
 We require to consider operator indices for which a given ONV I does not vanish:
-\begin{equation}
+\begin{equation} \label{eq:address}
   \bra{I} \hat{a}^{\dagger}_{p} \hat{a}_{q} \hat{a}^{\dagger}_{r} \hat{a}_{s} = \bra{J}
 \end{equation}
 In which $J$ is an address larger than $I$. Reason for this is, in the event that $\ket{I}$ can be transformed in $\ket{J}$. $\ket{J}$ can also be transformed back to $\ket{I}$ yielding the same two-electron term (hermitian two-electron operators).
@@ -29,7 +29,7 @@ In which $J$ is an address larger than $I$. Reason for this is, in the event tha
   (\bra{I} E_{pq} E_{rs} \ket{J})^\dagger = \bra{J} E_{sr} E_{qp} \ket{I}
 \end{equation}
 
-It is important to note, that I will base further explinations on the perspective of equation (\ref{eq:address}) where $\hat{a}^{\dagger}_{p}$ annihilates on $\bra{I}$.
+It is important to note, that I will base further explanations from the perspective of equation (\ref{eq:address}) where $\hat{a}^{\dagger}_{p}$ annihilates on $\bra{I}$.
 
 \subsection{Minimal operator iterations}
 For the address to be larger at all times, the highest index of a creation should always be higher than the highest index of an annihilation. This is easily verified by the fact that we represent our ONVs in binary and that the addressing is based on the ordering of its integer value. Given the relation of numeric value for each index of an integer represented in binary is quadratic, the integer value of a set index is always larger than any combination of previously set indices:
@@ -38,16 +38,15 @@ For the address to be larger at all times, the highest index of a creation shoul
 \end{equation}
 Additionally we can state that the first annihiltion can always have a smaller index than the second annihiltion without skipping over any address, the same is true for the creation operators.
 
-Regardless is which way they are executed (if they are all different indices), the address will be the same. However the order of execution can alter the expression (sign wise) and will be accompanied by a different two-electron term.
+Regardless is which way they are executed (if they are all different indices), the address will be the same. However the order of execution can alter the expression (sign wise) and will be accompanied by a different two-electron term. Given an ONV $\bra{I}$ for which $\bra{I} \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s \neq 0 $ we find that:
 \begin{align}
-  \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s & = \hat{a}^\dagger_p \hat{a}_s \delta_{rq} - \hat{a}^\dagger_p \hat{a}^\dagger_r \hat{a}_q \hat{a}_s \nonumber \\
-  & = \hat{a}^\dagger_p  \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r \hat{a}^\dagger_p \hat{a}_q \hat{a}_s \nonumber \\
-  & = \hat{a}^\dagger_p  \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r \hat{a}_s \delta_{pq} - \hat{a}^\dagger_r \hat{a}_q \hat{a}^\dagger_p \hat{a}_s \label{eq:equals} \\
+  \bra{I} \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s & = \bra{I} (\hat{a}^\dagger_p \hat{a}_s \delta_{rq} - \hat{a}^\dagger_p \hat{a}^\dagger_r \hat{a}_q \hat{a}_s) \nonumber \\
+  & = \bra{I} (\hat{a}^\dagger_p  \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r \hat{a}^\dagger_p \hat{a}_q \hat{a}_s) \nonumber \\
+  & = \bra{I} (\hat{a}^\dagger_p  \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r \hat{a}_s \delta_{pq} - \hat{a}^\dagger_r \hat{a}_q \hat{a}^\dagger_p \hat{a}_s) \label{eq:equals} \\
   & \text{IF p,q,r,s $\neq$} \nonumber \\
-  & = -\hat{a}^\dagger_r \hat{a}_q \hat{a}^\dagger_p \hat{a}_s \\
-  & \text{additionally we find:} \nonumber \\
-  & = \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_q \\
-  & = -\hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_q
+  & = - \bra{I}(\hat{a}^\dagger_r \hat{a}_q \hat{a}^\dagger_p \hat{a}_s )\\
+  & = \bra{I} (\hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_q ) \\
+  & = - \bra{I} (\hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_q)
 \end{align}
 So for the \textit{p,q,r,s $\neq$} case, we can enforce : $p<r$, $q<s$ for symmetries and anti-symmetries, and $s > r$ upper diagonal to not generate redundant addresses. This leaves us with limited combinations:
 
@@ -69,55 +68,55 @@ These have some implication for symmetry and anti-symmetry equations such as equ
 
 
 \begin{align}
-  \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s & = \hat{a}^\dagger_p \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r  \hat{a}_s \delta_{pq} - \hat{a}^\dagger_r \hat{a}_q \hat{a}^\dagger_p \hat{a}_s \\
-  & = \hat{a}^\dagger_p \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r \hat{a}_s \delta_{pq} - \hat{a}^\dagger_r \hat{a}_q  \delta_{sp} - \hat{a}^\dagger_r \hat{a}_s \delta_{pq} + \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_q \\
-  & = \hat{a}^\dagger_p \hat{a}_q \delta_{rs} + \hat{a}^\dagger_p \hat{a}_s \delta_{qr} - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_q
+   \bra{I}  \hat{a}^\dagger_p \hat{a}_q \hat{a}^\dagger_r \hat{a}_s & =   \bra{I} (\hat{a}^\dagger_p \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r  \hat{a}_s \delta_{pq} - \hat{a}^\dagger_r \hat{a}_q \hat{a}^\dagger_p \hat{a}_s) \\
+  & =   \bra{I} (\hat{a}^\dagger_p \hat{a}_s \delta_{rq} + \hat{a}^\dagger_r \hat{a}_s \delta_{pq} - \hat{a}^\dagger_r \hat{a}_q  \delta_{sp} - \hat{a}^\dagger_r \hat{a}_s \delta_{pq} + \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_q) \\
+  & =   \bra{I} (\hat{a}^\dagger_p \hat{a}_q \delta_{rs} + \hat{a}^\dagger_p \hat{a}_s \delta_{qr} - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_q)
 \end{align}
 
 \subsubsection{$p = q$} \label{p=q}
 For $p = q$ we can also see that for $s = q \iff r = q$ ortherwise we would have a double creation on the same index without an annihilation on that same index, which is a vanishing operation sequence. However this does not alter the address (diagonal contribution) and is ignored in the algorithm. Hence we state that $ s \neq p, q, r $ This simplifies the equations:
 
 \begin{align}
-  \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_r \hat{a}_s & = \hat{a}^\dagger_p \hat{a}_s \delta_{rp} + \hat{a}^\dagger_r  \hat{a}_s - \hat{a}^\dagger_r \hat{a}_p \hat{a}^\dagger_p \hat{a}_s \\
-  & = \hat{a}^\dagger_p \hat{a}_s \delta_{rp} + \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_p \\
-  & = \hat{a}^\dagger_p \hat{a}_s \delta_{pr} - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_p
+  \bra{I}  \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_r \hat{a}_s & =  \bra{I} (\hat{a}^\dagger_p \hat{a}_s \delta_{rp} + \hat{a}^\dagger_r  \hat{a}_s - \hat{a}^\dagger_r \hat{a}_p \hat{a}^\dagger_p \hat{a}_s) \\
+  & =   \bra{I} (\hat{a}^\dagger_p \hat{a}_s \delta_{rp} + \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_p) \\
+  & =   \bra{I} (\hat{a}^\dagger_p \hat{a}_s \delta_{pr} - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_p)
 \end{align}
 We can then discriminate between $r = p$ :
 
 \begin{align}
-  \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_p \hat{a}_s & = \hat{a}^\dagger_p \hat{a}_s + \hat{a}^\dagger_p \hat{a}_s - \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_p \hat{a}_s  \\
-  & = \hat{a}^\dagger_p \hat{a}_s + \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_p \hat{a}_p \label{eq:vanish1} \\
-  & = \hat{a}^\dagger_p \hat{a}_s - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_p \hat{a}_p \label{eq:vanish2}
+    \bra{I} \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_p \hat{a}_s & =   \bra{I} (\hat{a}^\dagger_p \hat{a}_s + \hat{a}^\dagger_p \hat{a}_s - \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_p \hat{a}_s ) \\
+  & =   \bra{I} (\hat{a}^\dagger_p \hat{a}_s + \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_p \hat{a}_p) \label{eq:vanish1} \\
+  & =   \bra{I} (\hat{a}^\dagger_p \hat{a}_s - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_p \hat{a}_p) \label{eq:vanish2}
 \end{align}
 We see in equation (\ref{eq:vanish1}) and (\ref{eq:vanish2}) that last term annihilates $p$, then operator on index $s$ does strictly not create on index $p$ and index $p$ is annihilated again, thus this term vanishes:
 
 \begin{equation}
-  \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_p \hat{a}_s = \hat{a}^\dagger_p \hat{a}_s
+ \bra{I}  \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_p \hat{a}_s = \bra{I} \hat{a}^\dagger_p \hat{a}_s
 \end{equation}
 For $r \neq p$:
 \begin{align}
-  \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_r \hat{a}_s & = \hat{a}^\dagger_r  \hat{a}_s - \hat{a}^\dagger_r \hat{a}_p \hat{a}^\dagger_p \hat{a}_s  \nonumber \\
-  & = \hat{a}^\dagger_r  \hat{a}_s \label{eq:rneqp}\\
-  & =  \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_p \\
-  & = - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_p
+    \bra{I} \hat{a}^\dagger_p \hat{a}_p \hat{a}^\dagger_r \hat{a}_s & =   \bra{I} ( \hat{a}^\dagger_r  \hat{a}_s - \hat{a}^\dagger_r \hat{a}_p \hat{a}^\dagger_p \hat{a}_s ) \nonumber \\
+  & =   \bra{I} (\hat{a}^\dagger_r  \hat{a}_s) \label{eq:rneqp}\\
+  & =   \bra{I} ( \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_p) \\
+  & = -   \bra{I} (\hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_p)
 \end{align}
 Where se see that for equation (\ref{eq:rneqp}) the second term vanished, as the initial term is assumend non-vanishing.
 
 \subsubsection{$q=r$}
 We only cover $p \neq r$ as we assume tha $r$ starts unoccupied as opposed to the previous section (\ref{p=q}).
 \begin{align}
-  \hat{a}^\dagger_p \hat{a}_r \hat{a}^\dagger_r \hat{a}_s & = \hat{a}^\dagger_p \hat{a}_s - \hat{a}^\dagger_r \hat{a}_r \hat{a}^\dagger_p \hat{a}_s \nonumber \\
-  & = \hat{a}^\dagger_p \hat{a}_s  \\
-  & = \hat{a}^\dagger_p \hat{a}_s + \hat{a}^\dagger_r \hat{a}_s \delta_{pr} - \hat{a}^\dagger_r \hat{a}_r  \delta_{sp} - \hat{a}^\dagger_r \hat{a}_s \delta_{pr} + \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_r \\
-  & = \hat{a}^\dagger_p \hat{a}_r \delta_{rs} + \hat{a}^\dagger_p \hat{a}_s - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_r
+  \bra{I} \hat{a}^\dagger_p \hat{a}_r \hat{a}^\dagger_r \hat{a}_s & =   \bra{I} (\hat{a}^\dagger_p \hat{a}_s - \hat{a}^\dagger_r \hat{a}_r \hat{a}^\dagger_p \hat{a}_s) \nonumber \\
+  & =   \bra{I} \hat{a}^\dagger_p \hat{a}_s  \\
+  & =   \bra{I} (\hat{a}^\dagger_p \hat{a}_s + \hat{a}^\dagger_r \hat{a}_s \delta_{pr} - \hat{a}^\dagger_r \hat{a}_r  \delta_{sp} - \hat{a}^\dagger_r \hat{a}_s \delta_{pr} + \hat{a}^\dagger_r \hat{a}_s \hat{a}^\dagger_p \hat{a}_r) \\
+  & =   \bra{I} (\hat{a}^\dagger_p \hat{a}_r \delta_{rs} + \hat{a}^\dagger_p \hat{a}_s - \hat{a}^\dagger_p \hat{a}_s \hat{a}^\dagger_r \hat{a}_r)
 \end{align}
-Which simplies to:
+Which simplifies to:
 \begin{equation}
-  \hat{a}^\dagger_p \hat{a}_r \hat{a}^\dagger_r \hat{a}_s = \hat{a}^\dagger_p \hat{a}_s
+    \bra{I} \hat{a}^\dagger_p \hat{a}_r \hat{a}^\dagger_r \hat{a}_s =   \bra{I} \hat{a}^\dagger_p \hat{a}_s
 \end{equation}
 
 
-\subsubsection{Summary}
+\subsubsection{Summary for the Hamiltonian}
 In short this we shall sum up what appears to be the minimal amount of operators required to retrieve all information for the Hamiltonian for the two-electron (same spin) operators.
 The value:
 \begin{equation}
@@ -133,12 +132,33 @@ For every occupied index $x$ in an ONV:
 \begin{equation}
   \frac{1}{2} (g_{xxpq} + g_{pqxx} - g_{xpqx})
 \end{equation}
-(the $p = x$ instance we see $g_{xqxx} - g_{xxqx} = 0$)
+We can also see that for $p=x$ we arrive at:
+\begin{equation}
+  \frac{1}{2} (g_{xxxq})
+\end{equation}
 For every unnocupied index $y$ ($p \neq y$) in an ONV:
 \begin{equation}
   \frac{1}{2} (g_{pyyq})
 \end{equation}
 Where for both cases $p<q$.
 \subsection{Calculating Addresses}
+\subsection{The FCI matrix vector product}
+
+Internally it is recommended to work with relative addresses for both spin functions and then order them logically in your total matrix vector. Given the nature of our Hamiltonian (operators do not affect spin) we can write an ONV as two ONVs from two seperate Fock spaces (and have the total Fock space be a direct product of those spaces). $\ket{ONV} = \ket{ONV_\alpha ONV_\beta}$. Choose one of the ONVs to be major and the other minor. If for example your $\alpha$ Fock space is major your $ONV_\alpha$ will permutate after a full permutation of your $ONV_\beta$ which are $\beta$ Fock space dimension permutations.
+We define $\textbf{dim}_\alpha$ as the $\alpha$ Fock space dimension and $\textbf{dim}_\beta$ as the $\beta$ Fock space dimension and the total dimension $\textbf{dim}_{total} = \textbf{dim}_\alpha * \textbf{dim}_\beta$. \\
+An eigenvector is thus stored as such:
+\begin{tabular}{|l|l|l|}
+\hline
+$I_{\alpha}$ & $I_{\beta}$ & $\textbf{total}$ \\ \hline
+$I_0$ & $I_0$ & $0$ \\ \hline
+$I_0$ & $I_1$ & $1$ \\ \hline
+$I_0$ & $I_2$ & $2$ \\ \hline
+$I_0$ & $I_{...}$ & $...$ \\ \hline
+$I_0$ & $I_{\textbf{dim}_\beta - 1}$ & $\textbf{dim}_\beta - 1$ \\ \hline
+$I_1$ & $I_{0}$ & $\textbf{dim}_\beta$ \\ \hline
+$I_1$ & $I_{1}$ & $\textbf{dim}_\beta + 1$ \\ \hline
+$I_{...}$ & $I_{...}$ & $... * \textbf{dim}_\beta + ...$ \\ \hline
+$I_{\textbf{dim}_\alpha - 1}$ & $I_{\textbf{dim}_\beta - 1}$ & $\textbf{dim}_{total} - 1$ \\ \hline
+\end{tabular}
 
 \end{document}
