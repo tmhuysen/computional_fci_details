@@ -142,23 +142,65 @@ For every unnocupied index $y$ ($p \neq y$) in an ONV:
 \end{equation}
 Where for both cases $p<q$.
 \subsection{Calculating Addresses}
-\subsection{The FCI matrix vector product}
 
-Internally it is recommended to work with relative addresses for both spin functions and then order them logically in your total matrix vector. Given the nature of our Hamiltonian (operators do not affect spin) we can write an ONV as two ONVs from two seperate Fock spaces (and have the total Fock space be a direct product of those spaces). $\ket{ONV} = \ket{ONV_\alpha ONV_\beta}$. Choose one of the ONVs to be major and the other minor. If for example your $\alpha$ Fock space is major your $ONV_\alpha$ will permutate after a full permutation of your $ONV_\beta$ which are $\beta$ Fock space dimension permutations.
+\section{The FCI (restricted) matrix vector product}
+
+Internally it is recommended to work with relative addresses for both spin functions and then order them logically in your total vectors. Given the nature of our Hamiltonian (operators do not affect spin) we can write an ONV as two ONVs from two seperate Fock spaces (and have the total Fock space be a direct product of those spaces). $\ket{ONV} = \ket{ONV_\alpha ONV_\beta}$. Choose one of the ONVs to be major and the other minor. If for example your $\alpha$ Fock space is major your $ONV_\alpha$ will permutate after a full permutation of your $ONV_\beta$ which are $\beta$ Fock space dimension permutations.
 We define $\textbf{dim}_\alpha$ as the $\alpha$ Fock space dimension and $\textbf{dim}_\beta$ as the $\beta$ Fock space dimension and the total dimension $\textbf{dim}_{total} = \textbf{dim}_\alpha * \textbf{dim}_\beta$. \\
 An eigenvector is thus stored as such:
-\begin{tabular}{|l|l|l|}
+\begin{tabular}{|l|l||l|}
 \hline
-$I_{\alpha}$ & $I_{\beta}$ & $\textbf{total}$ \\ \hline
-$I_0$ & $I_0$ & $0$ \\ \hline
-$I_0$ & $I_1$ & $1$ \\ \hline
-$I_0$ & $I_2$ & $2$ \\ \hline
-$I_0$ & $I_{...}$ & $...$ \\ \hline
-$I_0$ & $I_{\textbf{dim}_\beta - 1}$ & $\textbf{dim}_\beta - 1$ \\ \hline
-$I_1$ & $I_{0}$ & $\textbf{dim}_\beta$ \\ \hline
-$I_1$ & $I_{1}$ & $\textbf{dim}_\beta + 1$ \\ \hline
-$I_{...}$ & $I_{...}$ & $... * \textbf{dim}_\beta + ...$ \\ \hline
-$I_{\textbf{dim}_\alpha - 1}$ & $I_{\textbf{dim}_\beta - 1}$ & $\textbf{dim}_{total} - 1$ \\ \hline
+$I_{\alpha}$ & $I_{\beta}$ & $I_{\textbf{total}}$ \\ \hline
+$I_1$ & $I_1$ & $I_1$ \\ \hline
+$I_1$ & $I_2$ & $I_2$ \\ \hline
+$I_1$ & $I_3$ & $I_3$ \\ \hline
+$I_1$ & $I_{...}$ & $I_{...}$ \\ \hline
+$I_1$ & $I_{\textbf{dim}_\beta}$ & $I_{\textbf{dim}_\beta}$ \\ \hline
+$I_2$ & $I_{1}$ & $I_{\textbf{dim}_\beta + 1}$ \\ \hline
+$I_2$ & $I_{2}$ & $I_{\textbf{dim}_\beta + 2}$ \\ \hline
+$I_{...}$ & $I_{...}$ & $I_{... * \textbf{dim}_\beta + ...}$ \\ \hline
+$I_{\textbf{dim}_\alpha}$ & $I_{\textbf{dim}_\beta}$ & $I_{\textbf{dim}_{total}}$ \\ \hline
 \end{tabular}
+\\
+Rudimentary approach to performing the matrix vector product for a none storable Hamiltonian can be done as follows (where P is the vector resulting from the product and X is the vector partaking in the product):
+\begin{align}
+  \text{P}_{I} = \text{Hamiltonian}_{IJ} * \text{X}_{J} \\
+  \text{P}_{J} = \text{Hamiltonian}_{JI} * \text{X}_{I}
+\end{align}
+Where $\text{Hamiltonian}_{JI} = \text{Hamiltonian}_{IJ}$ (or $\text{Hamiltonian}_{JI} = \text{Hamiltonian}_{IJ}^*$ when working complex). Allowing for the upperdiagonal approach (for I coupling to J one finds J coupling to I)
 
+\subsection{Evaluations Seperated by Spin}
+
+For a set of operators only affecting one spin function we can repeat the coupling as many times as there are permutations in the Fock space of the opposite spin. e.g.:
+\begin{equation} \label{eq:coupling_alpha}
+  \bra{I_\alpha I_\beta} \hat{a}^{\dagger}_{p \alpha} \hat{a}_{q \alpha} \hat{a}^{\dagger}_{r \alpha} \hat{a}_{s \alpha} \ket{J_\alpha I_\beta} = 1
+\end{equation}
+Equation (\ref{eq:coupling_alpha}) holds for any $I_\beta$.
+Allowing to re-use a calculated coupling.
+\begin{align}
+  \text{P}_{I_\alpha I_\beta} = \text{Hamiltonian}_{IJ} * \text{X}_{J_\alpha I_\beta} \\
+  \text{P}_{J_\alpha I_\beta} = \text{Hamiltonian}_{JI} * \text{X}_{I_\alpha I_\beta}
+\end{align}
+
+Base-line implementation (with a for loop) will result significant difference in execution speed for both spin functions.
+
+As an example we have an FCI calculation with $K=12$ molecular orbitals and 6 $\alpha$ electrons and 6 $\beta$ electrons.
+Yielding an Alpha and Beta Fock space of dimenion 924 and a total dimension of 853.776k.
+Calculating all couplings with Alpha and perfoming the matvec takes: $249 ms$ versus Beta: $2561 ms$.
+The alpha matvec is a lot cheaper because it gets repeated in an uninterrupted sequencel matter, versus beta which repeats with a large interval (the dimenion of the alpha Fock space) causing cache misses. This was solved using the Eigen3 (ref EIGEN) API for efficiently performing the matvec in a vectorized matter.
+
+The resulting vector and the vector from the product can both me mapped to a matrix representation.
+
+  \begin{center}
+\[
+\begin{bmatrix}
+    I^{\alpha}_1 I^{\beta}_1 & I^{\alpha}_1 I^{\beta}_2  & I^{\alpha}_1 I^{\beta}_{...} & \dots  & I^{\alpha}_1 I^{\beta}_{\textbf{dim}_\beta} \\
+    I^{\alpha}_2 I^{\beta}_1 & I^{\alpha}_2 I^{\beta}_2  & I^{\alpha}_2 I^{\beta}_{...} & \dots  & I^{\alpha}_2 I^{\beta}_{\textbf{dim}_\beta} \\
+    I^{\alpha}_{...} I^{\beta}_1 & I^{\alpha}_{...} I^{\beta}_2  & I^{\alpha}_{...} I^{\beta}_{...} & \dots  & I^{\alpha}_{...} I^{\beta}_{\textbf{dim}_\beta} \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    I^{\alpha}_{\textbf{dim}_\alpha} I^{\beta}_1 & I^{\alpha}_{\textbf{dim}_\alpha} I^{\beta}_2  & I^{\alpha}_{\textbf{dim}_\alpha} I^{\beta}_{...} & \dots  &
+    I^{\alpha}_{\textbf{dim}_\alpha} I^{\beta}_{\textbf{dim}_\beta}
+\end{bmatrix}
+\]
+\end{center}
 \end{document}
