@@ -164,36 +164,34 @@ $I_{\textbf{dim}_\alpha}$ & $I_{\textbf{dim}_\beta}$ & $I_{\textbf{dim}_{total}}
 \\
 Rudimentary approach to performing the matrix vector product for a none storable Hamiltonian can be done as follows (where P is the vector resulting from the product and X is the vector partaking in the product):
 \begin{align}
-  \text{P}_{I} = \text{Hamiltonian}_{IJ} * \text{X}_{J} \\
-  \text{P}_{J} = \text{Hamiltonian}_{JI} * \text{X}_{I}
+  \text{P}_{I} = \sum_J \text{H}_{IJ} * \text{X}_{J} \\
+  \text{P}_{J} = \sum_I \text{H}_{JI} * \text{X}_{I}
 \end{align}
 Where $\text{Hamiltonian}_{JI} = \text{Hamiltonian}_{IJ}$ (or $\text{Hamiltonian}_{JI} = \text{Hamiltonian}_{IJ}^*$ when working complex). Allowing for the upperdiagonal approach (for I coupling to J one finds J coupling to I)
 
 \subsection{Evaluations Seperated by Spin}
-
 For a set of operators only affecting one spin function we can repeat the coupling as many times as there are permutations in the Fock space of the opposite spin. e.g.:
 \begin{equation} \label{eq:coupling_alpha}
   \bra{I_\alpha I_\beta} \hat{a}^{\dagger}_{p \alpha} \hat{a}_{q \alpha} \hat{a}^{\dagger}_{r \alpha} \hat{a}_{s \alpha} \ket{J_\alpha I_\beta} = 1
 \end{equation}
 Equation (\ref{eq:coupling_alpha}) holds for any $I_\beta$.
-Allowing to re-use a calculated coupling.
+Allowing to re-use calculated Hamiltonian elements related to the coupling.
 \begin{align}
-  \text{P}_{I_\alpha I_\beta} = \text{Hamiltonian}_{IJ} * \text{X}_{J_\alpha I_\beta} \\
-  \text{P}_{J_\alpha I_\beta} = \text{Hamiltonian}_{JI} * \text{X}_{I_\alpha I_\beta}
+  \forall I_\beta: \text{P}_{I_\alpha * \textbf{dim}_\beta + I_\beta} = \sum_{J_\alpha > I_\alpha} \text{H}^{\alpha}_{I_\alpha J_\alpha} * \text{X}_{J_\alpha * \textbf{dim}_\beta + I_\beta} \\
+  \forall I_\beta: \text{P}_{J_\alpha * \textbf{dim}_\beta + I_\beta} = \sum_{I_\alpha > J_\alpha} \text{H}^{\alpha}_{J_\alpha I_\alpha} * \text{X}_{I_\alpha * \textbf{dim}_\beta + I_\beta}
 \end{align}
+Where the $\text{H}^{\alpha}$ refers to the Hamiltonian values retrievable by exclusively operators working on alpha electrons.
 
 Base-line implementation (with a for loop) will result significant difference in execution speed for both spin functions.
-
 As an example we have an FCI calculation with $K=12$ molecular orbitals and 6 $\alpha$ electrons and 6 $\beta$ electrons.
-Yielding an Alpha and Beta Fock space of dimenion 924 and a total dimension of 853.776k.
+Yielding an Alpha and Beta Fock space of dimenion 924 and a total dimension of 853.776k where alpha is major as in the vector example above.
 Calculating all couplings with Alpha and perfoming the matvec takes: $249 ms$ versus Beta: $2561 ms$.
-The alpha matvec is a lot cheaper because it gets repeated in an uninterrupted sequencel matter, versus beta which repeats with a large interval (the dimenion of the alpha Fock space) causing cache misses. This was solved using the Eigen3 (ref EIGEN) API for efficiently performing the matvec in a vectorized matter.
+The alpha matvec is a lot cheaper because it gets repeated in an uninterrupted sequencel matter, versus beta which repeats with a large interval (the dimenion of the alpha Fock space) causing cache misses. This was solved using the Eigen3 (ref EIGEN) API for efficiently performing the matvec in a vectorized matter. (There is no motivation other than educational to attempt to write a library with similar functionallity and performance as Eigen3 by yourself)
 
-The resulting vector and the vector from the product can both me mapped to a matrix representation.
+The resulting vector and the vector from the product can both be mapped to a matrix representation.
 
-  \begin{center}
-\[
-\begin{bmatrix}
+\begin{equation}
+\begin{bmatrix} \label{eq:matrixrep}
     I^{\alpha}_1 I^{\beta}_1 & I^{\alpha}_1 I^{\beta}_2  & I^{\alpha}_1 I^{\beta}_{...} & \dots  & I^{\alpha}_1 I^{\beta}_{\textbf{dim}_\beta} \\
     I^{\alpha}_2 I^{\beta}_1 & I^{\alpha}_2 I^{\beta}_2  & I^{\alpha}_2 I^{\beta}_{...} & \dots  & I^{\alpha}_2 I^{\beta}_{\textbf{dim}_\beta} \\
     I^{\alpha}_{...} I^{\beta}_1 & I^{\alpha}_{...} I^{\beta}_2  & I^{\alpha}_{...} I^{\beta}_{...} & \dots  & I^{\alpha}_{...} I^{\beta}_{\textbf{dim}_\beta} \\
@@ -201,6 +199,20 @@ The resulting vector and the vector from the product can both me mapped to a mat
     I^{\alpha}_{\textbf{dim}_\alpha} I^{\beta}_1 & I^{\alpha}_{\textbf{dim}_\alpha} I^{\beta}_2  & I^{\alpha}_{\textbf{dim}_\alpha} I^{\beta}_{...} & \dots  &
     I^{\alpha}_{\textbf{dim}_\alpha} I^{\beta}_{\textbf{dim}_\beta}
 \end{bmatrix}
-\]
-\end{center}
+\end{equation}
+
+One can then calculate $\text{H}^{\alpha}$ and $\text{H}^{\beta}$ which are $\textbf{dim}_\alpha$ by $\textbf{dim}_\alpha$ and $\textbf{dim}_\beta$ by $\textbf{dim}_\beta$
+matrixes respectively. Note that these will be sparse and will only cost a fraction to store compared P and X.
+
+We can then calculate a portion of P (all one-electron and part of the two-electron (only the same spin) evaluations), $\text{P}^{\alpha}$ and $\text{P}^{\beta}$.
+Where we now define $\text{P} = \text{P}^{\alpha \beta} + \text{P}^{\alpha} + \text{P}^{\beta}$ with $\text{P}^{\alpha \beta}$ exclusively operator combinations working on both spin functions simultaneously. Let us call $\mathcal{P}$: P mapped as the matrix in eqation (\ref{eq:matrixrep})
+
+\begin{align}
+    \forall I_\beta: \mathcal{P}_{I_\alpha I_\beta} & = \sum_{J_\alpha} \text{H}^{\alpha}_{I_\alpha J_\alpha} * \text{X}_{J_\alpha I_\beta} \\
+    \forall I_\alpha: \mathcal{P}_{I_\alpha  I_\beta} & = \sum_{J_\beta} \text{H}^{\beta}_{I_\beta J_\beta} * \text{X}_{I_\alpha J_\beta} \\
+   \mathcal{P}^\alpha & = \text{H}^{\alpha} * \textbf{X} \\
+  \mathcal{P}^\beta & = \textbf{X} * \text{H}^{\beta}
+\end{align}
+
+
 \end{document}
