@@ -1,13 +1,19 @@
 \usepackage[english]{babel}
-\usepackage{microtype}   
+\usepackage{microtype}
 \usepackage[left=3cm, right=3cm]{geometry}		                                % Margins left and right
 \usepackage{hyperref}                                                           % Clickable table of contents in PDFs
 \usepackage{datetime}                                                           % Currenttime
 \usepackage{graphicx}                                                           % Import .pdf-files as figure
 \usepackage{subcaption}                                                         % Subfigure
-\usepackage{float}                                                              % float [H]
-
+\usepackage{float}
+\usepackage{listings}
 \usepackage{physics}                                                            % Physics typesetting: bra-ket
 \usepackage{amsfonts}                                                           % mathfrak
 \usepackage{mathtools}                                                          % dcases, DeclarePairedDelimiter
 \usepackage{amsmath}
+\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+\usepackage{tikz}
+\usepackage[]{algorithm2e}
+\usepackage{wrapfig}
