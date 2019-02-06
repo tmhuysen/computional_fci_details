@@ -1,0 +1,42 @@
+
+\section{Frozen core CI}
+
+Let us start from the following representation of the Hamiltonian with restricted parameters:
+\begin{equation}\label{eq:ham}
+      \hat{\mathcal{H}}_\text{elec} = \sum_{pq}^K h_{pq} \hat{E}_{pq} + \frac{1}{2} \sum_{pqrs}^K g_{pqrs} \hat{e}_{pqrs}
+  \end{equation}
+
+We freeze the first X orbitals and fill them with electrons pairs. And define L as $L=K-X$.  Let us call the Hamiltonian in this space $\hat{\mathcal{H}}^{f}_\text{elec}$.
+We define $\hat{{H}}^{L}$ as the hamiltonian in the new product Fock space of Fock space alpha with L orbitals and $N_\alpha - X$ electrons abd Fock space beta with L orbitals and $N_\beta - X$. Let us define $\hat{{H}}^{X}$ as the Hamiltonian in the working exclusively on the frozen orbitals and $\hat{{H}}^{Q}$ as missing Hamiltonian elements in complete frozen Fock space.
+
+\begin{equation}
+  \hat{\mathcal{H}}^{f}_\text{elec} = \hat{{H}}^{L} + \hat{{H}}^{X} + \hat{{H}}^{Q}
+\end{equation}
+
+For $\hat{{H}}^{L}$ we find no changes to FCI Hamiltonian in its Fock space.
+\begin{equation}
+  \hat{{H}}^{L} = \sum_{pq}^L k_{pq} \hat{E}_{pq} + \frac{1}{2} \sum_{pqrs}^L g_{pqrs} \hat{E}_{pq} \hat{E}_{rs}
+\end{equation}
+
+For $\hat{{H}}^{X}$ all orbitals are occupied hence we find for any $\ket{I}$:
+\begin{align}
+ \bra{I}  \hat{{H}}^{X} \ket{I} &= \sum^{X}_{p}  h_{pp} * (\braket{\alpha}{\alpha} + \braket{\beta}{\beta}) + \frac{1}{2} g_{pppp} * (\braket{\alpha \beta}{\beta \alpha} + \braket{\beta \alpha}{\alpha \beta})  \\
+   & +  \frac{1}{2} \sum^{X}_{p<q}  (g_{ppqq} + g_{qqpp}) * (\braket{\alpha \beta}{\beta \alpha} + \braket{\beta \alpha}{\alpha \beta} + \braket{\alpha \alpha}{\alpha \alpha} + \braket{\beta \beta}{\beta \beta}) \\
+    & -  \frac{1}{2} \sum^{X}_{p<q} (g_{pqqp} + g_{qppq}) * (\braket{\alpha \alpha}{\alpha \alpha} + \braket{\beta \beta}{\beta \beta}) \\
+    & = \sum^{X}_{p} 2 h_{pp} + g_{pppp} + \sum^{X}_{p<q} 2g_{ppqq} + 2g_{qqpp} - g_{pqqp} - g_{qppq} \\
+    \bra{I} \hat{{H}}^{X} \ket{J} &= 0
+\end{align}
+
+
+For $\hat{{H}}^{Q}$ we find :
+\begin{align}
+   \hat{{H}}^{Q}  &= \sum_{pq}^L \Big(\sum^{X}_r g_{pqrr} + g_{rrpq} - \frac{g_{prrq} + g_{rpqr}}{2}  \Big)  \hat{E}_{pq}
+\end{align}
+
+This means we can modify the one electron integral from $\hat{{H}}^{L}$ with $\hat{{H}}^{Q}$.
+
+\begin{align}
+   \hat{{H}}^{LQ}  &=  \hat{{H}}^{L} + \hat{{H}}^{Q} \\
+                  &=  \sum_{pq}^L \Big(k_{pq} + \sum^{X}_r g_{pqrr} + g_{rrpq} - \frac{g_{prrq} + g_{rpqr}}{2} \Big) \hat{E}_{pq} + \frac{1}{2} \sum_{pqrs}^L g_{pqrs} \hat{E}_{pq} \hat{E}_{rs}
+\end{align}
+We can then perform the FCI algorithm in $\hat{{H}}^{L}$'s Fock Space, and then perform diagonal correction with the evaluations from $\hat{{H}}^{X}$.

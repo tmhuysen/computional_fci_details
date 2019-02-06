@@ -11,6 +11,9 @@ include(UseLATEX.cmake)
 add_latex_document(${TEX_NAME}.tex
 		INPUTS
 			packages.tex
+			main/fci.tex
+			main/frozen.tex
+			main/address.tex
 		IMAGE_DIRS
 			graphs
 )
