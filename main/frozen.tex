@@ -40,3 +40,31 @@ This means we can modify the one electron integral from $\hat{{H}}^{L}$ with $\h
                   &=  \sum_{pq}^L \Big(k_{pq} + \sum^{X}_r g_{pqrr} + g_{rrpq} - \frac{g_{prrq} + g_{rpqr}}{2} \Big) \hat{E}_{pq} + \frac{1}{2} \sum_{pqrs}^L g_{pqrs} \hat{E}_{pq} \hat{E}_{rs}
 \end{align}
 We can then perform the FCI algorithm in $\hat{{H}}^{L}$'s Fock Space, and then perform diagonal correction with the evaluations from $\hat{{H}}^{X}$.
+
+\subsection{RDMs}
+
+We have restrictedly frozen the first X orbitals hence for 1-RDMs we find for the first X indices:
+\begin{align}
+  \forall p &\in [0,X[ \\
+  & D_{pp} = \bra{\Psi} E_{pp} \ket{\Psi} = \braket{\Psi}{\Psi} + \braket{\Psi}{\Psi} \\
+  & D_{pp}^\alpha = D_{pp}^\beta = 1
+\end{align}
+
+For 2-RDMs for the first X indices we find:
+\begin{align}
+  \forall p,q \in & [0,X[ \\
+  & d^{\sigma \sigma \sigma \sigma}_{ppqq} = \braket{\Psi}{\Psi} = 1 \\
+  & d^{\sigma \sigma \sigma \sigma}_{pqqp} = - 1 \\
+  & d^{\sigma \sigma \sigma \sigma}_{pppp} = 0 \\
+  & d^{\sigma \sigma \tau \tau}_{ppqq} = 1 \\
+  & d^{\sigma \sigma \tau \tau}_{pppp} = 1 \\
+  & d_{ppqq} = 4 \\
+  & d_{pppp} = 2 \\
+  \forall p \in & [0, X[ q,r \notin [0, X[ \\
+  & d^{\sigma \sigma \sigma \sigma}_{ppqr} = \bra{\Psi} E_{qr}^{\sigma} \ket{\Psi} = D_{qr}^{\sigma} \\
+  & d^{\sigma \sigma \sigma \sigma}_{pqrp} = - D_{qr}^{\sigma} \\
+  & d^{\sigma \sigma \tau \tau}_{ppqr} = D_{qr}^{\tau} \\
+  & d^{\tau \tau \sigma \sigma}_{ppqr} = D_{qr}^{\sigma} \\
+  & d_{ppqr} = 2 D_{qr} \\
+  & d_{pqrp} = - D_{qr}
+\end{align}
