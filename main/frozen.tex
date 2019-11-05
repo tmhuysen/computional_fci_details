@@ -41,6 +41,18 @@ This means we can modify the one electron integral from $\hat{{H}}^{L}$ with $\h
 \end{align}
 We can then perform the FCI algorithm in $\hat{{H}}^{L}$'s Fock Space, and then perform diagonal correction with the evaluations from $\hat{{H}}^{X}$.
 
+
+\subsection{Unrestricted Frozen Core CI}
+  \begin{align}
+    \bra{I} \hat{{H}}^{X} \ket{I} &= \sum^{X}_{p} h_{pp}^\alpha +  h_{pp}^\beta + g_{pppp}^{\alpha \beta} + \sum^{X}_{p<q} g_{ppqq}^{\alpha \beta} + g_{qqpp}^{\alpha \beta} \\
+    &+ \frac{g_{ppqq}^\beta + g_{qqpp}^\beta  - g_{pqqp}^\beta - g_{qppq}^\beta }{2} + \frac{g_{ppqq}^\alpha + g_{qqpp}^\alpha - g_{pqqp}^\alpha - g_{qppq}^\alpha }{2}
+   \end{align}
+
+   For $\hat{{H}}^{Q}$ we find :
+   \begin{align}
+      \hat{{H}}^{Q}  &= \sum_{pq}^L \Big(\sum^{X}_r g_{pqrr} + g_{rrpq} - \frac{g_{prrq} + g_{rpqr}}{2}  \Big)  \hat{a}^{\alpha \dagger}_p \hat{a}^{\alpha}_q 
+   \end{align}
+
 \subsection{RDMs}
 
 We have restrictedly frozen the first X orbitals hence for 1-RDMs we find for the first X indices:

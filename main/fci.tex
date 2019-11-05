@@ -167,7 +167,9 @@ Let us call $\mathcal{P}$: P mapped as the matrix in eqation (\ref{eq:matrixrep}
    \mathcal{P}^\alpha & = \text{H}^{\alpha} * \mathbb{X} \\
   \mathcal{P}^\beta & = \mathbb{X} * \text{H}^{\beta}
 \end{align}
-Eigen3 offers a sparse matrix module (initialize it with vector of \code{Eigen::Triplets}). One can either only fill the upperdiagonal and use \code{Eigen::SparseMatrix::selfadjointView<upper>()}
+Eigen3 offers a sparse matrix module (initialize it with vector of \code{Eigen::Triplets}). One can either only fill the upperdiagonal and use
+\\
+ \code{Eigen::SparseMatrix::selfadjointView<upper>()}
 when performing a matrix multiplication, however I have found that filling both upper and lower diagonal of the self adjoint \code{SparseMatrx} significantly reduces the execution time of the matrix multiplication.
 
 \subsubsection{Evaluations of the two-electron mixed spin operators}

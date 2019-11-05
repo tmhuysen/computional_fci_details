@@ -1,0 +1,168 @@
+% **************************************************
+% Files' Character Encoding
+% **************************************************
+\PassOptionsToPackage{utf8}{inputenc}
+\usepackage{inputenc}
+
+
+% **************************************************
+% Thesis-related Information and Commands for Reuse
+% **************************************************
+\usepackage{datetime}  % \today and \currenttime
+
+\newcommand{\thesisTitle}{\@ Constrained notes}
+\newcommand{\thesisName}{Tobias Huysentruyt}
+\newcommand{\thesisSubject}{Documentation}
+\newcommand{\thesisDate}{\today \qquad \currenttime}
+\newcommand{\thesisVersion}{Version of \thesisDate}
+
+% \newcommand{\thesisFirstReviewer}{Jane Doe}
+% \newcommand{\thesisFirstReviewerUniversity}{\protect{Clean Thesis Style University}}
+% \newcommand{\thesisFirstReviewerDepartment}{Department of Clean Thesis Style}
+%
+% \newcommand{\thesisSecondReviewer}{John Doe}
+% \newcommand{\thesisSecondReviewerUniversity}{\protect{Clean Thesis Style University}}
+% \newcommand{\thesisSecondReviewerDepartment}{Department of Clean Thesis Style}
+%
+% \newcommand{\thesisFirstSupervisor}{Jane Doe}
+% \newcommand{\thesisSecondSupervisor}{John Smith}
+%
+% \newcommand{\thesisUniversity}{\protect{Clean Thesis Style University}}
+% \newcommand{\thesisUniversityDepartment}{Department of Clean Thesis Style}
+% \newcommand{\thesisUniversityInstitute}{Institute for Clean Thesis Dev}
+% \newcommand{\thesisUniversityGroup}{Clean Thesis Group (CTG)}
+% \newcommand{\thesisUniversityCity}{City}
+% \newcommand{\thesisUniversityStreetAddress}{Street address}
+% \newcommand{\thesisUniversityPostalCode}{Postal Code}
+
+
+% **************************************************
+% Debug LaTeX Information
+% **************************************************
+%\listfiles
+
+
+% **************************************************
+% Load and Configure Packages
+% **************************************************
+\usepackage[english]{babel} % babel system, adjust the language of the content
+\PassOptionsToPackage{% setup clean thesis style
+    figuresep=colon,%
+    sansserif=false,%
+    hangfigurecaption=false,%
+    hangsection=true,%
+    hangsubsection=true,%
+    colorize=full,%
+    colortheme=bluemagenta,%
+    bibsys=biber,%
+    bibfile=constrained,%
+    bibstyle=alphabetic,%
+    wrapfooter=false%
+}{cleanthesis}
+\usepackage{cleanthesis}
+
+\hypersetup{% setup the hyperref-package options
+    pdftitle={\thesisTitle},    %   - title (PDF meta)
+    pdfsubject={\thesisSubject},%   - subject (PDF meta)
+    pdfauthor={\thesisName},    %   - author (PDF meta)
+    plainpages=false,           %   -
+    colorlinks=false,           %   - colorize links?
+    pdfborder={0 0 0},          %   -
+    breaklinks=true,            %   - allow line break inside links
+    bookmarksnumbered=true,     %
+    bookmarksopen=true          %
+}
+
+
+\usepackage{algorithm}              % http://ctan.org/pkg/algorithms
+\usepackage{algpseudocode}          % http://ctan.org/pkg/algorithmicx
+\usepackage{amsmath}
+\usepackage{amsfonts}               % mathfrak
+\usepackage{amssymb}                % \mathbb
+\usepackage[mathscr]{euscript}      % \mathscr
+\usepackage{chemmacros}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{interval}
+\usepackage{mathtools}              % dcases, DeclareMathOperator, DeclairePairedDelimiter, prescript
+\usepackage{physics}                % physics typesetting, especially bra-ket notation
+\usepackage{simpler-wick}           % for typesetting Wick contractions
+\usepackage{siunitx}
+\usepackage{subcaption}
+\usepackage{tensor}
+\usepackage{xcolor}
+
+
+
+
+% **************************************************
+% Define commands
+% **************************************************
+
+% \subalign{}, for example to put alignment under summation symbols (https://tex.stackexchange.com/a/198806)
+\makeatletter
+\newcommand{\subalign}[1]{%
+  \vcenter{%
+    \Let@ \restore@math@cr \default@tag
+    \baselineskip\fontdimen10 \scriptfont\tw@
+    \advance\baselineskip\fontdimen12 \scriptfont\tw@
+    \lineskip\thr@@\fontdimen8 \scriptfont\thr@@
+    \lineskiplimit\lineskip
+    \ialign{\hfil$\m@th\scriptstyle##$&$\m@th\scriptstyle{}##$\crcr
+      #1\crcr
+    }%
+  }
+}
+\makeatother
+
+
+\newcommand{\normord}[1]{:\mathrel{#1}:}
+
+
+\setcounter{MaxMatrixCols}{15}  % normally there are only 10 maximum columns for matrices
+
+
+% A custom command for set notation: \set{X_P ; P = 1, 2, 3} (https://tex.stackexchange.com/a/209875/106914)
+%
+\DeclarePairedDelimiterX{\set}[1]{\{}{\}}{\setargs{#1}}
+\NewDocumentCommand{\setargs}{>{\SplitArgument{1}{;}}m}
+{\setargsaux#1}
+\NewDocumentCommand{\setargsaux}{mm}
+{\IfNoValueTF{#2}{#1} {#1\,\delimsize|\,\mathopen{}#2}}%{#1\:;\:#2}
+
+
+\DeclareMathOperator{\rnk}{rank}
+\DeclareMathOperator{\id}{id}       % identity function
+\DeclareMathOperator{\diag}{diag}   % diagonal matrix
+\DeclareMathOperator{\ad}{ad}       % adjoint mapping (Lie brackets)
+\DeclareMathOperator{\argmin}{argmin}
+
+
+\DeclareMathOperator{\GLg}{GL}    % general linear group
+\DeclareMathOperator{\SLg}{SL}    % special linear group
+\DeclareMathOperator{\Og}{O}      % orthogonal group
+\DeclareMathOperator{\SOg}{SO}    % special orthogonal group
+\DeclareMathOperator{\Ug}{U}      % unitary group
+\DeclareMathOperator{\SUg}{SU}    % special unitary group
+\DeclareMathOperator{\Autg}{Aut}  % automorphism group
+
+
+\DeclareMathOperator{\glie}{\mathfrak{g}}     % general Lie algebra
+\DeclareMathOperator{\gllie}{\mathfrak{gl}}   % general linear Lie algebra
+\DeclareMathOperator{\sllie}{\mathfrak{sl}}   % special linear Lie algebra
+\DeclareMathOperator{\olie}{\mathfrak{o}}     % orthogonal Lie algebra
+\DeclareMathOperator{\solie}{\mathfrak{so}}   % special orthogonal Lie algebra
+\DeclareMathOperator{\ulie}{\mathfrak{u}}     % unitary Lie algebra
+\DeclareMathOperator{\sulie}{\mathfrak{su}}   % special unitary Lie algebra
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\definecolor{ugent_blue}{RGB}{30, 100, 200}
+\definecolor{sciences}{RGB}{45, 140, 168}
+
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
+\DeclareMathAlphabet\mathbfcal{OMS}{cmsy}{b}{n}
+\definecolor{cream}{RGB}{222,217,201}
