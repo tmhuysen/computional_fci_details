@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/MacPorts 2019.50896_1) (preloaded format=pdflatex 2019.10.30)  5 NOV 2019 16:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/MacPorts 2019.50896_1) (preloaded format=pdflatex 2019.10.30)  6 NOV 2019 10:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -4064,13 +4064,13 @@ Package logreq Info: Writing requests to 'CI.run.xml'.
 Here is how much of TeX's memory you used:
  49808 strings out of 494274
  995717 string characters out of 6167700
- 1553667 words of memory out of 5000000
+ 1554667 words of memory out of 5000000
  52466 multiletter control sequences out of 15000+600000
  647015 words of font info for 171 fonts, out of 8000000 for 9000
  113 hyphenation exceptions out of 8191
  106i,14n,107p,10439b,2126s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/opt/local/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}{/opt/local/share/texmf-texlive/fonts/enc/dvips/lm/lm-ec.enc}{/opt/local/share/texmf-texlive/fonts/enc/dvips/lm/lm-mathit.enc}{/opt/local/share/texmf-texlive/fonts/enc/dvips/lm/lm-mathsy.enc}{/opt/local/share/texmf-texlive/fonts/enc/dvips/lm/lm-mathex.enc}{/opt/local/share/texmf-texlive/fonts/enc/dvips/lm/lm-rm.enc}{/opt/local/share/texmf-texlive/fonts/enc/dvips/tex-gyre/q-ec.enc}</opt/local/share/texmf-texlive/fonts/type1/bitstrea/charter/bchb8a.pfb></opt/local/share/texmf-texlive/fonts/type1/bitstrea/charter/bchr8a.pfb></opt/local/share/texmf-texlive/fonts/type1/bitstrea/charter/bchri8a.pfb></opt/local/share/texmf-texlive/fonts/type1/public/lm/lmex10.pfb></opt/local/share/texmf-texlive/fonts/type1/public/lm/lmmi10.pfb></opt/local/share/texmf-texlive/fonts/type1/public/lm/lmmi6.pfb></opt/local/share/texmf-texlive/fonts/type1/public/lm/lmmi8.pfb></opt/local/share/texmf-texlive/fonts/type1/public/lm/lmr10.pfb></opt/local/share/texmf-texlive/fonts/type1/public/lm/lmr8.pfb></opt/local/share/texmf-texlive/fonts/type1/public/lm/lmss12.pfb></opt/local/share/texmf-texlive/fonts/type1/public/lm/lmss17.pfb></opt/local/share/texmf-texlive/fonts/type1/public/lm/lmssbx10.pfb></opt/local/share/texmf-texlive/fonts/type1/public/lm/lmsy10.pfb></opt/local/share/texmf-texlive/fonts/type1/public/lm/lmsy8.pfb></opt/local/share/texmf-texlive/fonts/type1/public/lm/lmtt10.pfb></opt/local/share/texmf-texlive/fonts/type1/public/amsfonts/symbols/msbm10.pfb></opt/local/share/texmf-texlive/fonts/type1/public/tex-gyre/qhvb.pfb></opt/local/share/texmf-texlive/fonts/type1/public/tex-gyre/qhvr.pfb>
-Output written on /Users/tmhuysen/Documents/Notes/computional_fci_details/CI.pdf (26 pages, 299332 bytes).
+Output written on /Users/tmhuysen/Documents/Notes/computional_fci_details/CI.pdf (26 pages, 299300 bytes).
 PDF statistics:
  351 PDF objects out of 1000 (max. 8388607)
  301 compressed objects within 4 object streams
